@@ -2,7 +2,7 @@
  * JWT 工具函式（純 Edge Runtime 相容）
  * proxy.ts 使用此模組，不引入 fs 依賴
  */
-import { SignJWT, jwtVerify } from "jose";
+import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "default-secret-change-me-in-production"
@@ -10,12 +10,11 @@ const JWT_SECRET = new TextEncoder().encode(
 
 const SESSION_DURATION = 30 * 60; // 30 minutes
 
-export interface SessionPayload {
+export interface SessionPayload extends JWTPayload {
   username: string;
   displayName: string;
   role: "admin" | "user";
   loginTime: string;
-  exp?: number;
 }
 
 export async function createSession(
@@ -29,7 +28,7 @@ export async function createSession(
     displayName,
     role,
     loginTime: now,
-  } as SessionPayload)
+  })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DURATION}s`)
