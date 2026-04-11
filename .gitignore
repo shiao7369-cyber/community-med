@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# 部署相關
+/logs/
+/data/users.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
