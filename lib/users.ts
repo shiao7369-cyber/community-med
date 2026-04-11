@@ -124,7 +124,7 @@ export async function createUser(
 ): Promise<{ success: boolean; error?: string }> {
   const users = await getUsers();
 
-  const envAdmin = process.env.ADMIN_USERNAME || "admin";
+  const envAdmin = process.env.ADMIN_USERNAME || "蕭輝哲";
   if (data.username === envAdmin) {
     return { success: false, error: "此帳號名稱已被系統保留" };
   }

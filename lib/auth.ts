@@ -69,9 +69,9 @@ export async function validateCredentials(
   password: string
 ): Promise<{ valid: boolean; displayName: string; role: "admin" | "user" }> {
   // 1. Check env var super admin first
-  const adminUser = process.env.ADMIN_USERNAME || "admin";
+  const adminUser = process.env.ADMIN_USERNAME || "蕭輝哲";
   const adminPass = process.env.ADMIN_PASSWORD || "admin123";
-  const adminDisplayName = process.env.ADMIN_DISPLAY_NAME || "系統管理員";
+  const adminDisplayName = process.env.ADMIN_DISPLAY_NAME || "蕭輝哲";
 
   if (username === adminUser && password === adminPass) {
     return { valid: true, displayName: adminDisplayName, role: "admin" };
