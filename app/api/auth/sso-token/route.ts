@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Session 無效" }, { status: 401 });
   }
 
-  const ssoSecret = process.env.SSO_SECRET;
+  const ssoSecret = process.env.SSO_SECRET?.trim();
   if (!ssoSecret) {
     return NextResponse.json({ error: "SSO 未設定" }, { status: 500 });
   }
