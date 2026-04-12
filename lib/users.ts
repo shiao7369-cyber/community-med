@@ -65,11 +65,20 @@ async function redisSaveUsers(users: User[]) {
 
 // ============ File Storage (Local/PM2) ============
 
+function getDataDir() {
+  const { join } = require("path");
+  // Vercel 的檔案系統只有 /tmp 可寫入
+  if (process.env.VERCEL) {
+    return "/tmp/data";
+  }
+  return join(process.cwd(), "data");
+}
+
 function fileGetUsers(): User[] {
   try {
     const { readFileSync, existsSync, mkdirSync, writeFileSync } = require("fs");
+    const dataDir = getDataDir();
     const { join } = require("path");
-    const dataDir = join(process.cwd(), "data");
     const filePath = join(dataDir, "users.json");
 
     if (!existsSync(dataDir)) {
@@ -89,7 +98,7 @@ function fileGetUsers(): User[] {
 function fileSaveUsers(users: User[]) {
   const { writeFileSync, existsSync, mkdirSync } = require("fs");
   const { join } = require("path");
-  const dataDir = join(process.cwd(), "data");
+  const dataDir = getDataDir();
   const filePath = join(dataDir, "users.json");
 
   if (!existsSync(dataDir)) {
