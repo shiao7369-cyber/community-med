@@ -73,7 +73,10 @@ export async function validateCredentials(
   const adminPass = process.env.ADMIN_PASSWORD || "admin123";
   const adminDisplayName = process.env.ADMIN_DISPLAY_NAME || "蕭輝哲";
 
-  if (username === adminUser && password === adminPass) {
+  const normalizedUsername = username.normalize("NFC").trim();
+  const normalizedAdminUser = adminUser.normalize("NFC").trim();
+
+  if (normalizedUsername === normalizedAdminUser && password === adminPass) {
     return { valid: true, displayName: adminDisplayName, role: "admin" };
   }
 

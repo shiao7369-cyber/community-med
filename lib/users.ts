@@ -110,7 +110,8 @@ async function saveUsers(users: User[]) {
 
 export async function findUser(username: string): Promise<User | undefined> {
   const users = await getUsers();
-  return users.find((u) => u.username === username);
+  const normalized = username.normalize("NFC").trim();
+  return users.find((u) => u.username.normalize("NFC").trim() === normalized);
 }
 
 export async function createUser(
