@@ -1,8 +1,6 @@
 import Link from "next/link";
 import type { Module } from "@/lib/modules";
-import SubFeatureCard from "./SubFeatureCard";
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {};
+import SortableFeatureGrid from "./SortableFeatureGrid";
 
 export default function ModulePage({
   module,
@@ -61,23 +59,13 @@ export default function ModulePage({
         />
       </div>
 
-      {/* Feature grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {module.features.map((feature, index) => (
-          <div
-            key={feature.name}
-            className="animate-fade-in-up"
-            style={{ animationDelay: `${index * 80}ms` }}
-          >
-            <SubFeatureCard
-              feature={feature}
-              color={module.color}
-              bgColor={module.bgColor}
-              index={index}
-            />
-          </div>
-        ))}
-      </div>
+      {/* Feature grid — draggable */}
+      <SortableFeatureGrid
+        moduleId={module.id}
+        features={module.features}
+        color={module.color}
+        bgColor={module.bgColor}
+      />
 
       {/* Bottom info */}
       <div

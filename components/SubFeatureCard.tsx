@@ -5,20 +5,40 @@ export default function SubFeatureCard({
   color,
   bgColor,
   index,
+  isDragging,
 }: {
   feature: SubFeature;
   color: string;
   bgColor: string;
   index: number;
+  isDragging?: boolean;
 }) {
   return (
     <div
-      className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg border border-gray-100 hover:border-transparent transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+      className={`group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg border border-gray-100 hover:border-transparent transition-all duration-300 hover:-translate-y-1 ${
+        isDragging ? "shadow-2xl ring-2 ring-blue-400/50 cursor-grabbing" : "cursor-grab"
+      }`}
       style={{
         animationDelay: `${index * 80}ms`,
       }}
     >
       <div className="flex items-start gap-4">
+        {/* Drag handle indicator */}
+        <div className="flex flex-col gap-0.5 pt-2 opacity-0 group-hover:opacity-40 transition-opacity shrink-0">
+          <div className="flex gap-0.5">
+            <span className="w-1 h-1 rounded-full bg-gray-400" />
+            <span className="w-1 h-1 rounded-full bg-gray-400" />
+          </div>
+          <div className="flex gap-0.5">
+            <span className="w-1 h-1 rounded-full bg-gray-400" />
+            <span className="w-1 h-1 rounded-full bg-gray-400" />
+          </div>
+          <div className="flex gap-0.5">
+            <span className="w-1 h-1 rounded-full bg-gray-400" />
+            <span className="w-1 h-1 rounded-full bg-gray-400" />
+          </div>
+        </div>
+
         {/* Icon */}
         <div
           className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-110"
