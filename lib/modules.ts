@@ -2,6 +2,7 @@ export interface SubFeature {
   name: string;
   description: string;
   icon: string; // emoji for sub-features
+  ssoLink?: string; // external system URL for SSO redirect
 }
 
 export interface Module {
@@ -26,7 +27,7 @@ export const modules: Module[] = [
     path: "/home-disability",
     features: [
       { name: "失能等級評估", description: "CMS / 巴氏量表管理與自動分級", icon: "📋" },
-      { name: "個案管理追蹤", description: "個案狀態、訪視紀錄與進度追蹤", icon: "👤" },
+      { name: "個案管理追蹤", description: "個案狀態、訪視紀錄與進度追蹤", icon: "👤", ssoLink: "https://web-production-e61f8.up.railway.app" },
       { name: "照護計畫制定", description: "依評估結果產出照護計畫書", icon: "📝" },
       { name: "輔具需求評估", description: "輔具申請與配置追蹤管理", icon: "🦽" },
       { name: "長照 ABC 資源連結", description: "串聯社區長照 A/B/C 級單位", icon: "🔗" },
