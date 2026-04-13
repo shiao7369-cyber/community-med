@@ -22,9 +22,9 @@ export default function ModuleCard({ module }: { module: Module }) {
   const IconComponent = iconMap[module.id];
 
   return (
-    <Link href={module.path} className="group block">
+    <Link href={module.path} className="group block h-full">
       <div
-        className="relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 ease-out border border-gray-100 hover:border-transparent hover:-translate-y-2 overflow-hidden"
+        className="relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 ease-out border border-gray-100 hover:border-transparent hover:-translate-y-2 overflow-hidden h-full flex flex-col"
       >
         {/* Color accent bar */}
         <div
@@ -46,7 +46,7 @@ export default function ModuleCard({ module }: { module: Module }) {
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-gray-500 mb-4 leading-relaxed">
+        <p className="text-sm text-gray-500 mb-4 leading-relaxed flex-grow">
           {module.description}
         </p>
 
