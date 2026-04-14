@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   DndContext,
   closestCenter,
@@ -79,8 +79,11 @@ export default function SortableFeatureGrid({
   color: string;
   bgColor: string;
 }) {
-  const [orderedFeatures, setOrderedFeatures] = useState(() => {
-    if (typeof window === "undefined") return features;
+  const [orderedFeatures, setOrderedFeatures] = useState(features);
+  const [mounted, setMounted] = useState(false);
+  const [activeFeature, setActiveFeature] = useState<SubFeature | null>(null);
+
+  useEffect(() => {
     try {
       const saved = localStorage.getItem(`feature-order-${moduleId}`);
       if (saved) {
@@ -91,14 +94,13 @@ export default function SortableFeatureGrid({
         const remaining = features.filter(
           (f) => !savedOrder.includes(f.name)
         );
-        return [...reordered, ...remaining];
+        setOrderedFeatures([...reordered, ...remaining]);
       }
     } catch {
       // ignore
     }
-    return features;
-  });
-  const [activeFeature, setActiveFeature] = useState<SubFeature | null>(null);
+    setMounted(true);
+  }, [moduleId, features]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -145,7 +147,7 @@ export default function SortableFeatureGrid({
         items={orderedFeatures.map((f) => f.name)}
         strategy={rectSortingStrategy}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 transition-opacity duration-200 ${mounted ? "opacity-100" : "opacity-0"}`}>
           {orderedFeatures.map((feature, index) => (
             <SortableCard
               key={feature.name}
