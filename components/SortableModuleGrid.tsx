@@ -66,26 +66,26 @@ export default function SortableModuleGrid({
   modules: Module[];
 }) {
   const [orderedModules, setOrderedModules] = useState(modules);
+  const [mounted, setMounted] = useState(false);
   const [activeModule, setActiveModule] = useState<Module | null>(null);
 
-  // Load saved order from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
         const savedOrder: string[] = JSON.parse(saved);
         const reordered = savedOrder
           .map((id) => modules.find((m) => m.id === id))
           .filter((m): m is Module => !!m);
-        // Append any new modules not in saved order
         const remaining = modules.filter(
           (m) => !savedOrder.includes(m.id)
         );
         setOrderedModules([...reordered, ...remaining]);
-      } catch {
-        setOrderedModules(modules);
       }
+    } catch {
+      // ignore
     }
+    setMounted(true);
   }, [modules]);
 
   const sensors = useSensors(
@@ -120,6 +120,18 @@ export default function SortableModuleGrid({
 
       return newOrder;
     });
+  }
+
+  if (!mounted) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 opacity-0">
+        {modules.map((module, index) => (
+          <div key={module.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+            <ModuleCard module={module} />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (

@@ -136,6 +136,18 @@ export default function SortableFeatureGrid({
     });
   }
 
+  if (!mounted) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 opacity-0">
+        {features.map((feature, index) => (
+          <div key={feature.name} className="animate-fade-in-up" style={{ animationDelay: `${index * 80}ms` }}>
+            <SubFeatureCard feature={feature} color={color} bgColor={bgColor} index={index} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <DndContext
       sensors={sensors}
@@ -147,7 +159,7 @@ export default function SortableFeatureGrid({
         items={orderedFeatures.map((f) => f.name)}
         strategy={rectSortingStrategy}
       >
-        <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 transition-opacity duration-200 ${mounted ? "opacity-100" : "opacity-0"}`}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {orderedFeatures.map((feature, index) => (
             <SortableCard
               key={feature.name}
