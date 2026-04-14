@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -79,28 +79,26 @@ export default function SortableFeatureGrid({
   color: string;
   bgColor: string;
 }) {
-  const [orderedFeatures, setOrderedFeatures] = useState(features);
-  const [activeFeature, setActiveFeature] = useState<SubFeature | null>(null);
-
-  // Load saved order from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem(`feature-order-${moduleId}`);
-    if (saved) {
-      try {
+  const [orderedFeatures, setOrderedFeatures] = useState(() => {
+    if (typeof window === "undefined") return features;
+    try {
+      const saved = localStorage.getItem(`feature-order-${moduleId}`);
+      if (saved) {
         const savedOrder: string[] = JSON.parse(saved);
         const reordered = savedOrder
           .map((name) => features.find((f) => f.name === name))
           .filter((f): f is SubFeature => !!f);
-        // Append any new features not in saved order
         const remaining = features.filter(
           (f) => !savedOrder.includes(f.name)
         );
-        setOrderedFeatures([...reordered, ...remaining]);
-      } catch {
-        setOrderedFeatures(features);
+        return [...reordered, ...remaining];
       }
+    } catch {
+      // ignore
     }
-  }, [moduleId, features]);
+    return features;
+  });
+  const [activeFeature, setActiveFeature] = useState<SubFeature | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

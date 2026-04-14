@@ -1,21 +1,11 @@
 import { modules } from "@/lib/modules";
-import ModuleCard from "@/components/ModuleCard";
+import SortableModuleGrid from "@/components/SortableModuleGrid";
 
 export default function Home() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       {/* Module grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {modules.map((module, index) => (
-          <div
-            key={module.id}
-            className="animate-fade-in-up"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
-            <ModuleCard module={module} />
-          </div>
-        ))}
-      </div>
+      <SortableModuleGrid modules={modules} />
 
       {/* Stats section */}
       <div className="mt-16 sm:mt-20 grid grid-cols-2 sm:grid-cols-4 gap-6">
